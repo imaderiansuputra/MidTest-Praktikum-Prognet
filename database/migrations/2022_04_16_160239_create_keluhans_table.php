@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');            
             $table->string('judul');            
             $table->text('keluhan');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

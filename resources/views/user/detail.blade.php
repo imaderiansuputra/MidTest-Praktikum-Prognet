@@ -33,7 +33,7 @@
                                     <div class="col-12">
                                         <div class="row">                                            
                                             <div class="col-6 align-items-center">
-                                                <h4><a href="">{{ $keluhans->judul }}</a></h4>
+                                                <h4><a >{{ $keluhans->judul }}</a></h4>
                                             </div>
                                             <div class="col-6 text-end align-items-center">
                                                 <a class="btn bg-gradient-warning mb-0" href="/user/keluhan/{{$keluhans->id}}/edit"><i class="material-icons text-sm">edit</i>&nbsp;&nbsp;Edit</a>
@@ -56,7 +56,7 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-6 align-items-center">
-                                                <h4><a href="">
+                                                <h4><a>
                                                     @foreach($respons as $respon)
                                                         @if($keluhans->id == $respon->keluhan_id)
                                                             {{ $respon->respon }}

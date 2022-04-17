@@ -27,7 +27,7 @@
                         <div class="table">
                             <div class="row">
                                 <div class="col-6 align-items-center">
-                                    <h2 class="mb-0">Daftar Keluhan</h2>
+                                    <h2 class="mb-0">Daftar Respon</h2>
                                 </div>                                
                             </div>
                             <br>
@@ -39,7 +39,9 @@
                                             <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Nama</th>
                                             <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Judul</th>
                                             <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Keluhan</th>
-                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Tanggal Keluhan</th>                                            
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Tanggal Keluhan</th>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Tanggal Respon</th>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Status</th>                                            
                                             <th colspan="1" class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Action</th>            
                                         </tr>
                                     </thead>
@@ -49,8 +51,16 @@
                                             <td><p class="text-md font-weight-normal mb-0">{{ $keluhans->firstItem()+$loop->index }}</p></th>                
                                             <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->user->name }}</p></td>
                                             <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->judul }}</p></td>
-                                            <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->keluhan }}</p></td>
+                                            <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->keluhan }}</p></td>     
                                             <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->updated_at }}</p></td>                                            
+                                            <td><p class="text-md font-weight-normal mb-0">
+                                                    @foreach($respons as $respon)
+                                                        @if($keluhan->id == $respon->keluhan_id)
+                                                            {{ $respon->updated_at }}
+                                                        @endif
+                                                    @endforeach
+                                            </p></td>
+                                            <td><span class="badge {{ ($keluhan->status == 1) ? 'bg-gradient-success' : 'bg-gradient-secondary' }}">{{ ($keluhan->status == 1) ? 'Aktif' : 'Tidak Aktif' }}</span></td>
                                             <td class="align-middle text-center">
                                                 <div class="d-flex align-items-center">
                                                     <a href="/admin/respon/show/{{$keluhan->id}}" class="m-1 btn bg-gradient-info"><i class="material-icons text-sm me-2">visibility</i>Detail</a>

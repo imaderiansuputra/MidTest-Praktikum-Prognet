@@ -14,9 +14,10 @@ class ResponController extends Controller
 {
     public function index() {        
         $keluhans = Keluhan::with('user','respon')->paginate(5);
+        $respons = Respon::all();
         Paginator::useBootstrap();
        
-        return view('admin.index', compact('keluhans'));
+        return view('admin.index', compact('keluhans','respons'));
     }
 
     public function show($id) {
@@ -47,6 +48,8 @@ class ResponController extends Controller
         $respons->keluhan_id = $id;
         $respons->respon = $request->respon;
         if(!empty($request->respon)){
+            $keluhan->status = '0';
+            $keluhan->save();
             $respons->save();
         }
         return Redirect::to('/admin/respon/show/'.$id);
@@ -62,6 +65,9 @@ class ResponController extends Controller
     }
 
     public function delete($id) {
+        $keluhan = Keluhan::find($id);
+        $keluhan->status = '1';
+        $keluhan->save();
         Respon::where('keluhan_id',$id)->delete();
         return Redirect::to('/admin/respon/index');
     }

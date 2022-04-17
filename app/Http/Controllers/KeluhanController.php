@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Keluhan;
 use App\Models\Respon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
 use Redirect;
 
 class KeluhanController extends Controller
 {
     public function index() {
-        $keluhans = Keluhan::orderBy('user_id','asc')->get();
+        $keluhans = Keluhan::with('user','respon')->paginate(5);
+        $respons = Respon::all();
+        Paginator::useBootstrap();
         
-        return view('user.index', compact('keluhans'));
+        return view('user.index', compact('keluhans', 'respons'));
     }
 
     public function create() {                

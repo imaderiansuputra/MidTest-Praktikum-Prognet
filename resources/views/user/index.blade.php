@@ -22,49 +22,64 @@
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="grid-margin stretch-card">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card my-3">                 
-                            <div class="card-body pb-0 p-3">
-                                <div class="table">
-                                    <div class="row">
-                                        <div class="col-6 align-items-center">
-                                            <h3 class="mb-0">Keluhan</h3>
-                                        </div>
-                                        <div class="col-6 text-end align-items-center">
-                                            <a class="btn bg-gradient-success mb-0" href="/user/keluhan/create"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Tambah Keluhan</a>
-                                        </div><hr>
-                                    </div>
+                <div class="card">                 
+                    <div class="card-body">
+                        <div class="table">
+                            <div class="row">
+                                <div class="col-6 align-items-center">
+                                    <h2 class="mb-0">Daftar Keluhan</h2>
                                 </div>
+                                <div class="col-6 text-end align-items-center">
+                                    <a class="btn bg-gradient-success mb-0" href="/user/keluhan/create"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Tambah Keluhan</a>
+                                </div>                                
                             </div>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">No.</th>                                            
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Judul</th>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Keluhan</th>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Tanggal Keluhan</th>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Tanggal Respon</th>
+                                            <th class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Status</th>                                            
+                                            <th colspan="1" class="text-uppercase text-secondary text-lg font-weight-bolder ps-2">Action</th>            
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                        @foreach($keluhans as $keluhan)   
+                                        @if ($keluhan->user_id==\Auth::user()->id)                                     
+                                        <tr>
+                                            <td><p class="text-md font-weight-normal mb-0">{{ $keluhans->firstItem()+$loop->index }}</p></th>                                 
+                                            <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->judul }}</p></td>
+                                            <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->keluhan }}</p></td>
+                                            <td><p class="text-md font-weight-normal mb-0">{{ $keluhan->updated_at }}</p></td>
+                                            <td><p class="text-md font-weight-normal mb-0">
+                                                    @foreach($respons as $respon)
+                                                        @if($keluhan->id == $respon->keluhan_id)
+                                                            {{ $respon->updated_at }}
+                                                        @endif
+                                                    @endforeach
+                                            </p></td>                                            
+                                            <td><span class="badge {{ ($keluhan->status == 1) ? 'bg-gradient-success' : 'bg-gradient-secondary' }}">{{ ($keluhan->status == 1) ? 'Aktif' : 'Tidak Aktif' }}</span></td>                                            
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex align-items-center">
+                                                    <a href="/user/keluhan/show/{{$keluhan->id}}" class="m-1 btn bg-gradient-info"><i class="material-icons text-sm me-2">visibility</i>Detail</a>
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{ $keluhans->links() }}
                         </div>
-                        @foreach ($keluhans as $keluhan)
-                        @if ($keluhan->user_id==\Auth::user()->id) 
-                        <div class="card my-3">
-                            <div class="card card-body">
-                                <div class="row">                                    
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-6 align-items-center">
-                                                <h4><a href="">{{ $keluhan->judul }}</a></h4>
-                                            </div>
-                                            <div class="col-6 text-end align-items-center">
-                                                <a class="btn bg-gradient-info mb-0" href="/user/keluhan/show/{{$keluhan->id}}"><i class="material-icons text-sm">visibility</i>&nbsp;&nbsp;Detail</a>
-                                            </div>
-                                        </div>                                
-                                        <hr>
-                                        <p>{{ $keluhan->keluhan }}</p>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                        @endif
-                        @endforeach                                                  
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-
